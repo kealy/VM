@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript">
+</script>
+</head>
+<style>
+    .a{ background: white; border-color: #ECECEC; border-width: 2px }
+    .b{ background-color: white;border-color: #ECECEC; border-width: 2px }
+    .c{ background-color: white;border-color: #ECECEC; border-width: 2px }
+    .d{ background-color: white;border-color: #ECECEC; border-width: 2px }
+    .e{ background-color: white; border-color: #ECECEC; border-width: 2px ;}
+    .f{ background-color: #ECECEC; min-height: 100px}
+    
+    th {
+        display: nine;
+    }
+    
+    
+}
+    .footer-text{
+    color:#fff;
+}
+    h3{
+         color: #006786;
+    }
+    
+  td, th {
+padding: 1px 4px;
+}
+
+  .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: #006786;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    
+    }
+
+    text {
+        font: 14px sans-serif;
+        color: white;
+        
+    }
+    text.value {
+        font-size: 120%;
+        fill: white;
+    }
+
+
+    
+
+    .bar {
+        fill: #006786;
+        fill-opacity: .9;
+    }
+    
+  
+    
+    .opp-number {
+        text-align: center;
+        font-size: 500%;
+        color  : #006786;
+        
+    }
+    
+    
+    .Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+    
+    html, body {
+  height: 100%;
+  margin: 0;
+}
+.wrapper {
+  min-height: 100%;
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -50px;
+}
+.footer,
+.push {
+  height: 50px;
+}
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+           
+            <div class="col-md-12 f">
+                <h1 class="text-center">IT Deal Alert&trade;: Qualified Sales Opportunities <BR>Vulnerability Management</h1>
+               
+            </div>
+        </div>
+        <div class="row"> <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 a" id="area-a">
+                        <div class="Aligner">
+                            <div class="Aligner-item">      
+                                <p class="opp-number">75</p>
+                            <BR>
+                                <p>Qualified Sales Opportunities available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 b">
+                         <div class="Aligner">
+                            <div class="Aligner-item" id="area-b">              <h3 class="text-center">Timeframe to Purchase</h3></div>
+                        </div>
+                    </div>
+                   </div>
+                <div class="row">
+                    <div class="col-md-6 c"  id="area-c"><h3 class="text-center">Top Drivers</h3></div>
+                    <div class="col-md-6 d"  id="area-d"><h3 class="text-center">Top Features</h3></div>
+                </div>
+                </div>
+                <div class="col-md-4 col-xs-12 e" id="area-e"><h3 class="text-center">Top vendors</h3></div>
+                <div class="col-md-1"></div>
+        </div>
+            
+        
+  <!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+    
+<script>
+
+        (function() {
+        
+        // set the dimensions and margins of the graph 
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 450 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+var chartb = d3.select("#area-b").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+            
+            var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
+
+
+d3.csv("vm_timeframe-to-purchase.csv", function(d) {
+  d.value = +d.value;
+  return d;
+}, function(error, data) {
+  if (error) throw error;
+
+  x.domain(data.map(function(d) { return d.timeframe; }));
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+  
+
+  chartb.append("g") //y axis label
+    .attr("transform", "translate(0," + height + ")") // x axis
+      .call(d3.axisBottom(x));
+
+
+  chartb.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.timeframe); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+   .on("mousemove", function(d){
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html((d.timeframe) + "<br>" + (d.value)+"%");
+        })
+    		.on("mouseout", function(d){ tooltip.style("display", "none");});
+});
+        
+        })();
+    
+    
+    
+        (function() {
+    
+ $.get('vm_drivers.csv', function(data) {
+	var build = '<table border="0" cellpadding="2" cellspacing="2" style="border-collapse: collapse" width="100%">\n';
+	var rows = data.split("\n");
+	rows.forEach( function getvalues(thisRow) {
+	build += "<tr>\n";
+	var columns = thisRow.split(",");
+	for(var i=0;i<columns.length;i++){ build += "<td>" + columns[i] + "</td>\n"; }   			
+	build += "</tr>\n";
+	})
+	build += "</table>";
+	$('#area-c').append(build);	
+ });
+               })();
+                
+        (function() {
+    
+ $.get('vm_features.csv', function(data) {
+	var build = '<table border="0" cellpadding="2" cellspacing="2" style="border-collapse: collapse" width="100%">\n';
+	var rows = data.split("\n");
+	rows.forEach( function getvalues(thisRow) {
+	build += "<tr>\n";
+	var columns = thisRow.split(",");
+	for(var i=0;i<columns.length;i++){ build += "<td>" + columns[i] + "</td>\n"; }   			
+	build += "</tr>\n";
+	})
+	build += "</table>";
+	$('#area-d').append(build);	
+ });
+               })();
+     
+                 (function() {
+         
+       
+       
+         
+         
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+     width = 400 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+         
+         var charte = d3.select("#area-e").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  
+var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+  
+var x = d3.scaleLinear().range([0, width]);
+var y = d3.scaleBand().range([height, 0]);
+
+var g = charte.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+d3.json("vm_considering.json", function(error, data) {
+    
+  	if (error) throw error;
+  
+  	data.sort(function(a, b) { return a.value - b.value; });
+  
+  	x.domain([0, d3.max(data, function(d) { return d.value; })]);
+    y.domain(data.map(function(d) { return d.label; })).padding(0.1);
+
+    g.append("g")
+        .attr("class", "x axis")
+       	.attr("transform", "translate(0," + height + ")")
+      	
+
+    g.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(y));
+
+    g.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", 0)
+        .attr("height", y.bandwidth())
+        .attr("y", function(d) { return y(d.label); })
+        .attr("width", function(d) { return x(d.value); })
+        .on("mousemove", function(d){
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html((d.label) + "<br>" + (d.value)+"%");
+        })
+    		.on("mouseout", function(d){ tooltip.style("display", "none");});
+});
+        })();
+          
+            
+            </script>  </div>
+              <div class="push"></div>
+<footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 col-xs-12">
+                    <p class="footer-text">
+                    &copy; TechTarget 2017// <a href="http://www.techtarget" class="footer-text">techtarget.com</a> 
+                    </p>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+                
+    </footer>
+            
+            
+  </div>
+
+</body>

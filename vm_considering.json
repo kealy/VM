@@ -1,0 +1,62 @@
+[
+ {
+   "label": "Intel",
+   "value": 21
+ },
+ {
+   "label": "Qualys",
+   "value": 19
+ },
+ {
+   "label": "Cisco",
+   "value": 19
+ },
+ {
+   "label": "Tenable",
+   "value": 18
+ },
+ {
+   "label": "Lumension",
+   "value": 18
+ },
+ {
+   "label": "Symantec",
+   "value": 16
+ },
+ {
+   "label": "Tripwire",
+   "value": 15
+ },
+ {
+   "label": "Dell/EMC",
+   "value": 13
+ },
+ {
+   "label": "Check Point",
+   "value": 13
+ },
+ {
+   "label": "BeyondTrust",
+   "value": 12
+ },
+ {
+   "label": "Sophos",
+   "value": 11
+ },
+ {
+   "label": "Microsoft",
+   "value": 11
+ },
+ {
+   "label": "Rapid7",
+   "value": 10
+ },
+ {
+   "label": "Kaspersky",
+   "value": 8
+ },
+ {
+   "label": "IBM",
+   "value": 8
+ }
+]
